@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Applicant Sign Up Form</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    form {
+      margin-top: 30px;
+    }
+
+    header {
+      background-color: #007bff;
+      padding: 20px;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 2em;
+      margin: 0;
+      font-weight: bold;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav li {
+      display: inline-block;
+      margin-right: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #f8f9fa;
+    }
+
+    footer {
+      background-color: #f8f9fa;
+      text-align: center;
+      padding: 10px;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Table Styling */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #ddd;
+    }
+
+    /* Button Styling */
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    .btn-danger {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background-color: #c82333;
+    }
+
+    .btn-success {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+<!-- Header -->
+<header>
+    <div class="container">
+        <h1><i class='fas fa-lock' style='font-size:48px;color:green'></i> Bank Transaction System</h1>
+        <nav>
+            <ul>
+                <li><a href="Home.php">Home</a></li>
+                               <li><a href="user_reg.php">User</a></li>
+                <li><a href="Pro2.php">Admin</a></li>
+                <li><a href="AboutUs.php">About Us</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<br><br>
+
+<!-- PHP Code for Database Insertion -->
+<?php
+$ser_name = "localhost";
+$ser_type = "root";
+$pass = "";
+$dbname = "passport_visa_db";
+$con = mysqli_connect($ser_name, $ser_type, $pass, $dbname);
+if (!$con) {
+    echo "Not Connected <br>";
+}
+$sql = "INSERT INTO tb_userinfo(First_Name, Last_Name, Date_of_Birth, Gender, Nationality, Contact_Number, Email_Address, Adress, Password) VALUES ('$_POST[firstName]','$_POST[lastName]','$_POST[dob]','$_POST[gender]','$_POST[nationality]','$_POST[phone]','$_POST[email]','$_POST[address]','$_POST[password]')";
+if (mysqli_query($con, $sql)) {
+
+    // Fetch the inserted data from the database
+    $select_query = "SELECT * FROM tb_userinfo WHERE Email_Address = '$_POST[email]'";
+    $result = mysqli_query($con, $select_query);
+    $row = mysqli_fetch_assoc($result);
+    
+    // Display the inserted data in a table
+    echo '<div class="container">';
+    echo '<table class="table table-bordered">';
+    echo '<thead>';
+    echo '<tr>';
+    echo '<th>First Name</th>';
+    echo '<th>Last Name</th>';
+    echo '<th>Date of Birth</th>';
+    echo '<th>Gender</th>';
+    echo '<th>Nationality</th>';
+    echo '<th>Contact Number</th>';
+    echo '<th>Email Address</th>';
+    echo '<th>Address</th>';
+    echo '<th>Password</th>';
+    echo '</tr>';
+    echo '</thead>';
+    echo '<tbody>';
+    echo '<tr>';
+    echo '<td>' . $row['First_Name'] . '</td>';
+    echo '<td>' . $row['Last_Name'] . '</td>';
+    echo '<td>' . $row['Date_of_Birth'] . '</td>';
+    echo '<td>' . $row['Gender'] . '</td>';
+    echo '<td>' . $row['Nationality'] . '</td>';
+    echo '<td>' . $row['Contact_Number'] . '</td>';
+    echo '<td>' . $row['Email_Address'] . '</td>';
+    echo '<td>' . $row['Adress'] . '</td>';
+    echo '<td>' . $row['Password'] . '</td>';
+    echo '</td>';
+    echo '</tr>';
+    echo '</tbody>';
+    echo '</table>';
+    echo '</div>';
+} 
+else {
+    echo "DATABASE not Connected...";
+}
+mysqli_close($con);
+?>
+<br><br>
+<p><center><b>Note Down your Password!!!</b></center></p>
+<br><br>
+<center>
+<a href="Pro3.php" class="btn btn-secondary">Go Back</a>
+</center>
+<br><br>
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <p>&copy; Jubaer Ahamed Bhuiyan</p>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
